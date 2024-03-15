@@ -1,6 +1,3 @@
-/* QFrame{
-    background-color: red;
-} */
 
 QApplication{
     background-color: blue;
@@ -9,10 +6,6 @@ QApplication{
 QPushButton{
     background-color: white;
 }
-
-/* MainWindow{
-    background-color: aqua;
-} */
 
 QLabel{
     background-color: white;
@@ -42,7 +35,6 @@ QTextEdit{
     border-radius: 8px;
 }
 
-/* Styles for Scene_2 */
 
 #back_button{
     font-size: 24px;
