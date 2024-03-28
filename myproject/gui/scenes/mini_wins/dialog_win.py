@@ -2,7 +2,6 @@ import os
 from PyQt6.QtCore import Qt
 from PyQt6.QtWidgets import QWidget
 from PyQt6.QtWidgets import (
-    QApplication,
     QDialog,
     QPushButton,
     QDialogButtonBox,
@@ -14,9 +13,6 @@ from PyQt6.QtWidgets import (
     QMenu,
 )
 from PyQt6.QtGui import QIcon, QPixmap
-
-file = os.path.abspath("../graphic")
-print(file)
 
 
 class MiniWindow(QDialog):
@@ -99,6 +95,9 @@ class MiniWindow(QDialog):
         return
 
     def setting_menu_button(self, layout):
+
+        ##########################################
+        # There will be reading data from database
         menu_button = QPushButton("Samochody")
         lst = ["Audi", "Mercedes", "Toyota", "BMW"]
         menu = QMenu(self)

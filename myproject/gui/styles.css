@@ -27,7 +27,7 @@ QTextEdit{
     font-size: 14px;
 }
 #NextButton{
-    background-color: transparent;
+    background-color: white;
 }
 #pickDay{
     background-color: red;
@@ -38,4 +38,9 @@ QTextEdit{
 
 #back_button{
     font-size: 24px;
+}
+
+#default_button{
+    background-color: transparent;
+    border: none;
 }

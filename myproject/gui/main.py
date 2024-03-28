@@ -8,8 +8,6 @@ from PyQt6.QtWidgets import (
     QStackedWidget,
 )
 
-file = os.path.abspath("../graphic")
-
 
 class MainWindow(QMainWindow):
     def __init__(self):
@@ -37,8 +35,6 @@ class MainWindow(QMainWindow):
         self.stacked_wiget.setCurrentWidget(self.scene_1)
 
     def switch_to_scene_2(self):
-        file = os.path.abspath("../graphic")
-        print(file)
         self.stacked_wiget.setCurrentWidget(self.scene_2)
 
     def closeEvent(self, event):
@@ -53,4 +49,5 @@ def main():
     sys.exit(app.exec())
 
 
-main()
+if __name__ == "__main__":
+    main()

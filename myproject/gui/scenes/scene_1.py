@@ -16,7 +16,6 @@ from PyQt6.QtWidgets import (
 )
 from PyQt6.QtCore import QDate, Qt, QEvent
 from PyQt6.QtGui import QIcon, QPixmap
-from myproject.gui.scenes.module import file
 
 
 class Scene1(QWidget):
@@ -36,22 +35,18 @@ class Scene1(QWidget):
 
         self.Calendar_lay(self.main_date)
         self.Main_Layout.setContentsMargins(0, 0, 0, 0)
-        self.setLayout(self.Main_Layout)
 
         self.left_button.clicked.connect(lambda: self.Move_month(0))
         self.right_button.clicked.connect(lambda: self.Move_month(1))
 
         # Load style from css file
-        with open("myproject/gui/styles.css", "r") as css_file:
-            self.setStyleSheet(css_file.read())
+        self.setStyleSheet(open("myproject/gui/styles.css").read())
+        self.setLayout(self.Main_Layout)
 
     def clicked_day(self, event):
         curs_pos = QtGui.QCursor().pos()
         win_size = self.size()
         self.mini_win = MiniWindow(curs_pos.x(), curs_pos.y(), self.size().height())
-        # print(curs_pos.x(), curs_pos.y())
-        # print(self.size().height())
-        # print(self.maximumHeight())
         self.mini_win.show()
 
     def Adding_days_of_week(self):
@@ -64,7 +59,9 @@ class Scene1(QWidget):
 
     def Get_months(self):
         lst = []
-        with open("myproject/gui/scenes/txt_files/months_2.txt", "r", encoding="utf-8") as plik:
+        with open(
+            "myproject/gui/scenes/info/months_2.txt", "r", encoding="utf-8"
+        ) as plik:
             months = plik.read().split()
         for i in range(len(months)):
             lst.append(months[i].rstrip())
@@ -172,7 +169,7 @@ class Scene1(QWidget):
         self.Bottom_Box.addWidget(self.right_button)
         self.Main_Layout.addLayout(self.Bottom_Box)
 
-        self.Bottom_Box.setSpacing(1)
+        self.Bottom_Box.setSpacing(2)
 
     def Setting_Bar(self):
         self.CreatingButtons()
@@ -203,12 +200,8 @@ class Scene1(QWidget):
         self.OC_button.setMenu(menu_oc)
         self.review_button.setMenu(menu_review)
 
-        # Pixmap
-        pixmap = QPixmap(f"{file}\left_arrow_1.png")
-        pixmap1 = QPixmap(f"{file}\left_arrow_1_.png")
-
-        icon = QIcon(pixmap)
-        icon1 = QIcon(pixmap1)
+        icon = QIcon("./myproject/graphic/left_arrow_2.svg")
+        icon1 = QIcon("./myproject/graphic/right_arrow_2.svg")
 
         self.left_button.setIcon(icon)
         self.right_button.setIcon(icon1)
@@ -218,7 +211,9 @@ class Scene1(QWidget):
 
         # Setting paramiters
         self.left_button.setFixedSize(40, 500)
+        self.left_button.setIconSize(self.left_button.size())
         self.right_button.setFixedSize(40, 500)
+        self.right_button.setIconSize(self.right_button.size())
 
 
 if __name__ == "__main__":
