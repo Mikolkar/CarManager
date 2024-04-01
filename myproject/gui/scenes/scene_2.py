@@ -4,16 +4,11 @@ import sys
 from PyQt6 import QtGui
 from PyQt6.QtWidgets import (
     QWidget,
-    QApplication,
     QFrame,
     QGridLayout,
     QHBoxLayout,
     QVBoxLayout,
-    QTextEdit,
-    QLineEdit,
-    QLabel,
     QPushButton,
-    QMenu,
     QScrollArea,
 )
 from PyQt6.QtCore import QDate, Qt, QEvent
@@ -23,27 +18,37 @@ from PyQt6.QtGui import QIcon, QPixmap, QColor, QImage
 class Scene2(QWidget):
     def __init__(self):
         super().__init__()
-        self.x_ind = 0
-        self.y_ind = 0
 
-        self.list_ind = 0
+        # UI Element Sizes
+        self.car_button_size = 290
+
+        # Button References
+        self.back_button = None
+        self.add_button = None
+
+        # Internal State
+        self.current_grid_x = 0
+        self.current_grid_y = 0
         self.car_buttons = []
 
+        self.setup_ui()
+
+    def setup_ui(self):
+        # Layout Structure
         layout = QVBoxLayout(self)
         top_bar = QHBoxLayout()
-
         scroll_area = QScrollArea(self)
         scroll_area.setWidgetResizable(True)
-
         content = QWidget()
         scroll_area.setWidget(content)
         self.layout_scroll = QGridLayout(content)
 
-        self.setting_adding_button(self.x_ind, self.y_ind)
+        # Top Bar Buttons
+        self.create_top_bar_buttons()
 
-        self.add_buttons()
+        # Add Top Bar and Scroll Area to Main Layout
         top_bar.addWidget(self.back_button)
-        top_bar.addWidget(self.button)
+        top_bar.addWidget(self.add_button)
         layout.addLayout(top_bar)
         layout.addWidget(scroll_area)
         top_bar.addStretch()
@@ -51,42 +56,44 @@ class Scene2(QWidget):
         self.setLayout(layout)
         self.setStyleSheet(open("myproject/gui/styles.css").read())
 
-    def mousePressEvent(self, event):
-        # self.layout_scroll.removeWidget(self.label)
-
-        self.x_ind += 1
-        if self.x_ind == 5:
-            self.x_ind = 0
-            self.y_ind += 1
-
-        self.setting_adding_button(self.x_ind, self.y_ind)
-
-    def setting_adding_button(self, x_ind, y_ind):
-        size = 290
-        car_button = QPushButton("")
-
-        car_button.setIcon(QIcon("myproject/graphic/img_icon.png"))
-        car_button.setStyleSheet("background-color: red;")
-        car_button.setFixedSize(size, size)
-        car_button.setIconSize(car_button.size())
-
-        self.car_buttons.append(car_button)
-        self.list_ind += 1
-        self.layout_scroll.addWidget(self.car_buttons[self.list_ind - 1], y_ind, x_ind)
-
-    def add_buttons(self):
-        # back button
-        self.back_button = QPushButton("wróć")
+    def create_top_bar_buttons(self):
+        # Back Button
+        self.back_button = QPushButton("Wróć")
         self.back_button.setFixedWidth(74)
         self.back_button.setStyleSheet("font-size: 18px;")
 
-        # add button
-        self.button = QPushButton("")
-        self.button.setFixedSize(50, 50)
-        self.button.setIcon(QIcon("myproject/graphic/add_icon.png"))
-        self.button.setIconSize(self.button.size())
-        self.button.setObjectName("default_button")
-        self.button.clicked.connect(self.mousePressEvent)
+        # Add Button
+        self.add_button = QPushButton("")
+        self.add_button.setFixedSize(50, 50)
+        self.add_button.setIcon(QIcon("myproject/graphic/add_icon.png"))
+        self.add_button.setIconSize(self.add_button.size())
+        self.add_button.setObjectName("default_button")
+        self.add_button.clicked.connect(self.handle_add_button_click)
+
+    def handle_add_button_click(self):
+        # This function is triggered when the "add" button is clicked
+        # Add logic for adding a new car button here
+        self.add_car_button()
+
+    def add_car_button(self):
+        car_button = QPushButton("")
+        car_button.setIcon(QIcon("myproject/graphic/img_icon.png"))
+        car_button.setStyleSheet("background-color: red;")
+        car_button.setFixedSize(self.car_button_size, self.car_button_size)
+        car_button.setIconSize(car_button.size())
+
+        self.car_buttons.append(car_button)
+        self.layout_scroll.addWidget(
+            car_button, self.current_grid_y, self.current_grid_x
+        )
+
+        # Update grid position for the next button
+        self.current_grid_x += 1
+        if self.current_grid_x == 5:
+            self.current_grid_x = 0
+            self.current_grid_y += 1
+
+    # ... other methods like adding_new_car and deleting_car can be defined here
 
     def scaled_pixmap(self, size, path):
         pixmap = QPixmap(path)
