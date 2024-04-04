@@ -8,7 +8,7 @@ TO DO
 
 ## Features
 
-## Instalation
+## Installation
 ```poetry install```
 
 ## Usage
